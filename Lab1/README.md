@@ -7,5 +7,5 @@
 ---
 
 **Submitted by:** Sana Tariq  
-**Course:** Computer Networks  
+**Course:** Cloud Computing
 **Instructor:** Sir Waqas
