@@ -1,0 +1,21 @@
+---
+- name: Sync static site to S3
+  hosts: localhost
+  gather_facts: false
+  vars:
+    bucket_name: "{{ bucket_name | default(lookup('env', 'BUCKET_NAME')) }}"
+    site_dir: "../../site"
+  tasks:
+    - name: Ensure bucket name provided
+      assert:
+        that:
+          - bucket_name is defined
+          - bucket_name | length > 0
+        fail_msg: "bucket_name is required (pass via --extra-vars or BUCKET_NAME env)."
+
+    - name: Sync site content
+      community.aws.s3_sync:
+        region: "{{ lookup('env', 'AWS_REGION') | default('us-east-1') }}"
+        bucket: "{{ bucket_name }}"
+        file_root: "{{ site_dir }}"
+        delete: false
